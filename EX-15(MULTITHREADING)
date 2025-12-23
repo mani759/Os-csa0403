@@ -1,0 +1,46 @@
+#include <stdio.h>
+#include <pthread.h>
+#include <unistd.h>
+
+void* thread_function(void* arg) {
+    int thread_no = *(int*)arg;
+    printf("Thread %d is running\n", thread_no);
+    sleep(1);
+    printf("Thread %d finished execution\n", thread_no);
+    return NULL;
+}
+
+int main() {
+    pthread_t threads[10];
+    int n, i;
+    int thread_id[10];
+
+    printf("Enter number of threads: ");
+    scanf("%d", &n);
+
+    for (i = 0; i < n; i++) {
+        thread_id[i] = i + 1;
+        pthread_create(&threads[i], NULL, thread_function, &thread_id[i]);
+    }
+
+    for (i = 0; i < n; i++) {
+        pthread_join(threads[i], NULL);
+    }
+
+    printf("All threads have finished execution\n");
+    return 0;
+}
+
+INPUT : Enter number of threads: 5
+
+OUTPUT: Thread 1 is running
+Thread 2 is running
+Thread 3 is running
+Thread 4 is running
+Thread 5 is running
+Thread 2 finished execution
+Thread 3 finished execution
+Thread 4 finished execution
+Thread 1 finished execution
+Thread 5 finished execution
+All threads have finished execution
