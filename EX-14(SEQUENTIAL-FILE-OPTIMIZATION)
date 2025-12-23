@@ -1,0 +1,33 @@
+#include <stdio.h>
+
+int main() {
+    int start, length, i;
+
+    printf("Enter starting block: ");
+    scanf("%d", &start);
+
+    printf("Enter number of blocks (file size): ");
+    scanf("%d", &length);
+
+    printf("\nFile Allocation Table\n");
+    printf("Block No.\n");
+
+    for (i = 0; i < length; i++) {
+        printf("%d\n", start + i);
+    }
+
+    return 0;
+}
+
+
+INPUT: Enter starting block: 11
+Enter number of blocks (file size): 6
+
+OUTPUT: File Allocation Table
+Block No.
+11
+12
+13
+14
+15
+16
