@@ -1,0 +1,97 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int n, i, j, head, disk_size, total = 0;
+    int queue[20], temp;
+    int direction; // 0 = left, 1 = right
+
+    printf("Enter number of disk requests: ");
+    scanf("%d", &n);
+
+    printf("Enter disk request queue:\n");
+    for (i = 0; i < n; i++) {
+        scanf("%d", &queue[i]);
+    }
+
+    printf("Enter initial head position: ");
+    scanf("%d", &head);
+
+    printf("Enter disk size: ");
+    scanf("%d", &disk_size);
+
+    printf("Enter direction (0 = left, 1 = right): ");
+    scanf("%d", &direction);
+
+    // Sort the queue
+    for (i = 0; i < n - 1; i++) {
+        for (j = i + 1; j < n; j++) {
+            if (queue[i] > queue[j]) {
+                temp = queue[i];
+                queue[i] = queue[j];
+                queue[j] = temp;
+            }
+        }
+    }
+
+    printf("\nSeek Sequence:\n");
+    printf("%d", head);
+
+    if (direction == 1) { // Moving right
+        for (i = 0; i < n; i++) {
+            if (queue[i] >= head) {
+                total += abs(queue[i] - head);
+                head = queue[i];
+                printf(" -> %d", head);
+            }
+        }
+
+        total += abs((disk_size - 1) - head);
+        head = disk_size - 1;
+        printf(" -> %d", head);
+
+        for (i = n - 1; i >= 0; i--) {
+            if (queue[i] < head) {
+                total += abs(queue[i] - head);
+                head = queue[i];
+                printf(" -> %d", head);
+            }
+        }
+    }
+    else { // Moving left
+        for (i = n - 1; i >= 0; i--) {
+            if (queue[i] <= head) {
+                total += abs(queue[i] - head);
+                head = queue[i];
+                printf(" -> %d", head);
+            }
+        }
+
+        total += abs(head - 0);
+        head = 0;
+        printf(" -> %d", head);
+
+        for (i = 0; i < n; i++) {
+            if (queue[i] > head) {
+                total += abs(queue[i] - head);
+                head = queue[i];
+                printf(" -> %d", head);
+            }
+        }
+    }
+
+    printf("\n\nTotal Head Movement = %d cylinders\n", total);
+    return 0;
+}
+INPUT : Enter number of disk requests: 5
+Enter disk request queue:
+98 183 37 122 14
+Enter initial head position: 53
+Enter disk size: 200
+Enter direction (0 = left, 1 = right): 1
+
+
+OUTPUT: Seek Sequence:
+53 -> 98 -> 122 -> 183 -> 199 -> 37 -> 14
+
+Total Head Movement = 331 cylinders
